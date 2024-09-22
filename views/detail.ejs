@@ -1,0 +1,26 @@
+<!-- views/detail.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= tip.title %> - Business Guide</title>
+  <link rel="icon" type="image/png" href="/images/logo.png"> 
+  <link rel="stylesheet" href="/css/pico.min.css">
+  <link rel="stylesheet" href="/css/custom.css">
+</head>
+<body>
+
+  <%- include('partials/header') %>
+
+  <main class="container">
+    <h1><%= tip.title %></h1>
+    <img src="<%= tip.image %>" alt="<%= tip.title %>">
+    <p><strong>Category:</strong> <%= tip.category %></p>
+    <p><strong>Submitted By:</strong> <%= tip.submittedBy %></p>
+    <p><%= tip.text %></p>
+    <a href="/" role="button">Back to Home</a>
+  </main>
+</body>
+</html>
+

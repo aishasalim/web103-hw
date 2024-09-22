@@ -1,0 +1,38 @@
+/* public/css/custom.css */
+
+/* Style for the navigation bar */
+nav.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 0;
+  }
+  
+  /* Style for the logo/link on the left */
+  nav.container a.contrast {
+    font-size: 1.5em;
+    text-decoration: none;
+  }
+  
+  /* Style for the navigation links */
+  nav.container ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  nav.container ul li {
+    display: inline;
+  }
+  
+  nav.container ul li a {
+    text-decoration: none;
+    padding: 0.5em 1em;
+  }
+  
+  /* Optional: Add hover effect for navigation links */
+  nav.container ul li a:hover {
+    background-color: var(--muted);
+    border-radius: var(--border-radius);
+  }
+  

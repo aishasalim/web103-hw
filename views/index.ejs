@@ -1,0 +1,30 @@
+<!-- views/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Guide to Starting Your Business</title>
+  <link rel="icon" type="image/png" href="/images/logo.png"> 
+  <link rel="stylesheet" href="/css/pico.min.css">
+  <link rel="stylesheet" href="/css/custom.css">
+</head>
+<body>
+
+  <%- include('partials/header') %>
+
+  <main class="container">
+    <h1>Guide to Starting Your Business</h1>
+    <div class="grid">
+      <% tips.forEach(tip => { %>
+        <article>
+          <img src="<%= tip.image %>" alt="<%= tip.title %>">
+          <h2><%= tip.title %></h2>
+          <p><%= tip.text %></p>
+          <a href="/tips/<%= tip.id %>" role="button">Read More</a>
+        </article>
+      <% }) %>
+    </div>
+  </main>
+</body>
+</html>
