@@ -15,16 +15,26 @@
 
   <main class="container">
     <h1>Guide to Starting Your Business</h1>
-    <div class="grid">
-      <% tips.forEach(tip => { %>
-        <article>
-          <img src="<%= tip.image %>" alt="<%= tip.title %>">
-          <h2><%= tip.title %></h2>
-          <p><%= tip.text %></p>
-          <a href="/tips/<%= tip.id %>" role="button">Read More</a>
-        </article>
-      <% }) %>
-    </div>
+    <form action="/search" method="GET">
+      <input type="text" name="query" placeholder="Search for a tip" required>
+      <button type="submit">Search</button>
+     </form>
+  
+     <% if (tips.length === 0) { %>
+      <p>No tips found for "<%= query %>"</p>
+    <% } else { %>
+      <div class="grid">
+          <% tips.forEach(tip => { %>
+              <article>
+                  <img src="<%= tip.image %>" alt="<%= tip.title %>">
+                  <h2><%= tip.title %></h2>
+                  <p><%= tip.text %></p>
+                  <a href="/tips/<%= tip.id %>" role="button">Read More</a>
+              </article>
+          <% }) %>
+      </div>
+  <% } %>
+  
   </main>
 </body>
 </html>

@@ -1,8 +1,8 @@
-// app.js
-
 const express = require('express');
 const app = express();
 const path = require('path');
+const pool = require('./db'); // Import the database configuration
+require('dotenv').config(); // Load environment variables
 
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
@@ -10,69 +10,52 @@ app.set('view engine', 'ejs');
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-const tips = [
-    {
-      id: 1,
-      title: "Conduct Market Research",
-      text: "Understand your target audience by conducting thorough market research.",
-      category: "Market Research",
-      image: "/images/market-research.jpg",
-      submittedBy: "Alice"
-    },
-    {
-      id: 2,
-      title: "Brainstorm Business Ideas",
-      text: "Explore different business ideas to find your niche in the market.",
-      category: "Business Models",
-      image: "/images/brainstorm.jpg",
-      submittedBy: "Bob"
-    },
-    {
-      id: 3,
-      title: "Develop a Minimum Viable Product",
-      text: "Create an MVP to test your product's viability in the market.",
-      category: "Product Development",
-      image: "/images/mvp.jpg",
-      submittedBy: "Carol"
-    },
-    {
-      id: 4,
-      title: "Build a Strong Sales Team",
-      text: "Hire and train a sales team to effectively sell your product.",
-      category: "Sales",
-      image: "/images/sales-team.jpg",
-      submittedBy: "Dave"
-    },
-    {
-      id: 5,
-      title: "Secure Funding for Your Startup",
-      text: "Explore various funding options like angel investors, venture capitalists, or crowdfunding.",
-      category: "Funding",
-      image: "/images/funding.jpg",
-      submittedBy: "Eve"
-    }
-  ];
-  
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
 
-app.get('/', (req, res) => {
-    res.render('index', { tips });
-  });
-
-app.get('/tips/:id', (req, res) => {
-    const tip = tips.find(t => t.id === parseInt(req.params.id));
-    if (tip) {
-      res.render('detail', { tip });
-    } else {
-      res.status(404).render('404');
+// Route to render the index page with tips from the database
+app.get('/', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM tips');
+        res.render('index', { tips: result.rows });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
     }
-  });
-   
+});
+
+// Route to search tips by title
+app.get('/search', async (req, res) => {
+    const query = req.query.query; // Get the search term from the query string
+    try {
+        const result = await pool.query('SELECT * FROM tips WHERE title ILIKE $1', [`%${query}%`]);
+        res.render('index', { tips: result.rows });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});
+
+// Route to render detail page for a specific tip
+app.get('/tips/:id', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM tips WHERE id = $1', [req.params.id]);
+        const tip = result.rows[0];
+        if (tip) {
+            res.render('detail', { tip });
+        } else {
+            res.status(404).render('404');
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});
+
+// Handle 404 errors for unmatched routes
 app.use((req, res) => {
     res.status(404).render('404');
-  });
-  
+});
