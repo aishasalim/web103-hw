@@ -21,7 +21,11 @@ The following **optional** features are implemented:
 
 ## Video Walkthrough
 
-<img src='https://imgur.com/a/ofrL7xo.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+https://github.com/user-attachments/assets/f7cb8731-2578-4bf8-a956-aca1ab3e533d
+
+
+<a href='https://imgur.com/a/ofrL7xo.gif' > Imgur <a/>
 
 ## License
 
